@@ -37,26 +37,21 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
     try {
       const io = getIO();
       const sessionName = whatsapp.name;
-      let sessionCfg;
-
-      if (whatsapp && whatsapp.session) {
-        sessionCfg = JSON.parse(whatsapp.session);
-      }
 
       const args:String = process.env.CHROME_ARGS || "";
 
       const wbot: Session = new Client({
-        session: sessionCfg,
         authStrategy: new LocalAuth({
           clientId: `bd_${whatsapp.id}`,
-          dataPath: `wadata/${whatsapp.id}`
+          dataPath: `wadata/${whatsapp.id}`,
         }),
         puppeteer: {
           executablePath: process.env.CHROME_BIN || undefined,
           // @ts-ignore
           browserWSEndpoint: process.env.CHROME_WS || undefined,
           args: args.split(' ')
-        }
+        },
+        qrMaxRetries: 10,
       });
 
       wbot.initialize();
