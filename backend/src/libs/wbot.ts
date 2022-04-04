@@ -49,7 +49,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
         session: sessionCfg,
         authStrategy: new LocalAuth({
           clientId: `bd_${whatsapp.id}`,
-          dataPath: `wadata_${whatsapp.id}`
+          dataPath: `wadata/${whatsapp.id}`
         }),
         puppeteer: {
           executablePath: process.env.CHROME_BIN || undefined,
